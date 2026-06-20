@@ -5,34 +5,33 @@ import com.lld.practice.enums.TicketStatus;
 import com.lld.practice.repository.TicketRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TicketRepositoryImpl implements TicketRepository {
 
-    private static final Comparator<Ticket> ticketComparator = Comparator.comparing(Ticket::getEntryTime).reversed();
+    private final Map<String, Ticket> ticketsById;
+    private final Set<Ticket> activeTickets;
 
-    private final Map<String, Ticket> ticketsById = new TreeMap<>();
-    private final Set<Ticket> activeTickets = new TreeSet<>(ticketComparator);
-
-    @Override
-    public Ticket save(Ticket ticket) {
-        String ticketId = UUID.randomUUID().toString();
-        ticket.setTicketId(ticketId);
-        ticketsById.put(ticket.getTicketId(), ticket);
-        activeTickets.add(ticket);
-        return ticket;
+    public TicketRepositoryImpl(Map<String, Ticket> ticketsById, Set<Ticket> activeTickets) {
+        this.ticketsById = ticketsById;
+        this.activeTickets = activeTickets;
     }
 
     @Override
-    public void updateStatus(String ticketId, TicketStatus ticketStatus) {
-        Ticket ticket = ticketsById.get(ticketId);
-        if(ticket == null) {
-            throw new IllegalStateException("Ticket Not Found");
+    public Ticket save(Ticket ticket) {
+        String currentId = ticket.getTicketId();
+        boolean hasId = currentId != null;
+        if(hasId && ticketsById.containsKey(currentId)) {
+            ticketsById.replace(currentId, ticket);
         }
 
-        if(!TicketStatus.ACTIVE.equals(ticketStatus)) {
-            activeTickets.remove(ticket);
-        }
-        ticket.setTicketStatus(ticketStatus);
+        String ticketId = hasId ? currentId : UUID.randomUUID().toString();
+        ticket.setTicketId(ticketId);
+
+        Ticket persist = new Ticket(ticket);
+        ticketsById.put(ticketId, persist);
+        activeTickets.add(persist);
+        return ticket;
     }
 
     @Override
@@ -43,7 +42,9 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public Set<Ticket> getByStatus(TicketStatus ticketStatus) {
         if(TicketStatus.ACTIVE.equals(ticketStatus))
-            return activeTickets;
+            return activeTickets.stream()
+                    .map(Ticket::new)
+                    .collect(Collectors.toSet());
         return Set.of();
     }
 }

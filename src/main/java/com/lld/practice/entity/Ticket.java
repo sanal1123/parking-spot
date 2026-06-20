@@ -14,6 +14,18 @@ public class Ticket {
     private ParkingSpot parkingSpot;
     private TicketStatus ticketStatus;
 
+    public Ticket() {}
+
+    public Ticket(Ticket ticket) {
+        this.ticketId = ticket.getTicketId();
+        this.exitTime = ticket.getExitTime();
+        this.entryTime = ticket.getEntryTime();
+        this.licencePlate = ticket.getLicencePlate();
+        this.vehicleType = ticket.getVehicleType();
+        this.parkingSpot = new ParkingSpot(ticket.getParkingSpot());
+        this.ticketStatus = ticket.getTicketStatus();
+    }
+
     public String getLicencePlate() {
         return licencePlate;
     }

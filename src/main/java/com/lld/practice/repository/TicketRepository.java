@@ -8,7 +8,6 @@ import java.util.Set;
 
 public interface TicketRepository {
     Ticket save(Ticket ticket);
-    void updateStatus(String ticketId, TicketStatus ticketStatus);
     Optional<Ticket> getById(String ticketId);
     Set<Ticket> getByStatus(TicketStatus ticketStatus);
 }

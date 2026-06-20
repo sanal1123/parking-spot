@@ -4,7 +4,6 @@ import com.lld.practice.entity.Ticket;
 import com.lld.practice.entity.ParkingSpot;
 import com.lld.practice.enums.VehicleType;
 
-import java.util.List;
 import java.util.Set;
 
 public interface TicketService {

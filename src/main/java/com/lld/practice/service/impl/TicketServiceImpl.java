@@ -45,7 +45,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.getParkingSpot().setTicket(null);
         ParkingSpot spotCopy = new ParkingSpot(ticket.getParkingSpot());
         ticket.setParkingSpot(spotCopy);
-        ticketRepository.updateStatus(ticketId, TicketStatus.CLOSED);
+        ticketRepository.save(ticket);
         return ticket;
     }
 

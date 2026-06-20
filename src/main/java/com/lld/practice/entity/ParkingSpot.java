@@ -9,18 +9,17 @@ public class ParkingSpot {
     public ParkingSpot() {}
 
     public ParkingSpot(ParkingSpot parkingSpot) {
-        this.setSpotId(parkingSpot.getSpotId());
-        this.setSpotType(parkingSpot.getSpotType());
-        this.setFloor(parkingSpot.getFloor());
-        this.setSequence(parkingSpot.getSequence());
-        this.setTicket(parkingSpot.getTicket());
+        this.spotId = parkingSpot.getSpotId();
+        this.spotType = parkingSpot.getSpotType();
+        this.floor = parkingSpot.getFloor();
+        this.sequence = parkingSpot.getSequence();
+        this.ticket = parkingSpot.getTicket();
     }
 
     private String spotId;
     private SpotType spotType;
     private Floor floor;
     private Ticket ticket;
-
     private Integer sequence;
 
     public String getSpotId() {
