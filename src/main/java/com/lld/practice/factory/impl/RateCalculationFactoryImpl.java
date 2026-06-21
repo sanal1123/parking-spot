@@ -4,22 +4,22 @@ import com.lld.practice.entity.Ticket;
 import com.lld.practice.enums.RateTier;
 import com.lld.practice.enums.TicketStatus;
 import com.lld.practice.factory.RateCalculationFactory;
-import com.lld.practice.props.RateTierProps;
+import com.lld.practice.props.ParkingRateProps;
 import com.lld.practice.stratergy.parkingfee.RateCalculator;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RateCalculationFactoryImpl implements RateCalculationFactory {
-    private final RateTierProps rateTierProps;
+    private final ParkingRateProps parkingRateProps;
     private final RateCalculator hourlyRateCalculator;
     private final RateCalculator flatRateCalculator;
 
     public RateCalculationFactoryImpl(
-            RateTierProps rateTierProps,
+            ParkingRateProps parkingRateProps,
             RateCalculator hourlyRateCalculator,
             RateCalculator flatRateCalculator
     ) {
-        this.rateTierProps = rateTierProps;
+        this.parkingRateProps = parkingRateProps;
         this.hourlyRateCalculator = hourlyRateCalculator;
         this.flatRateCalculator = flatRateCalculator;
     }
@@ -31,7 +31,7 @@ public class RateCalculationFactoryImpl implements RateCalculationFactory {
             throw new IllegalStateException("Ticket must be closed before calculating the rate.");
         }
 
-        RateTier tier = rateTierProps.config().get(ticket.getVehicleType());
+        RateTier tier = parkingRateProps.tierMapping().get(ticket.getVehicleType());
 
         switch (tier) {
             case HOURLY -> {

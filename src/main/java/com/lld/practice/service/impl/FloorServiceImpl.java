@@ -5,7 +5,6 @@ import com.lld.practice.repository.FloorsRepository;
 import com.lld.practice.service.FloorService;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 
 @Service
 public class FloorServiceImpl implements FloorService {
@@ -21,11 +20,5 @@ public class FloorServiceImpl implements FloorService {
         Floor floor = new Floor();
         floor.setSequence(sequence);
         return floorsRepository.save(floor);
-    }
-
-    @Override
-    public Floor getFloorById(String floorId) {
-        return floorsRepository.getById(floorId)
-                .orElseThrow(() -> new NoSuchElementException("Floor Not Found"));
     }
 }

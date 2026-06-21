@@ -9,7 +9,11 @@ import java.util.*;
 @Component
 public class FloorRepositoryImpl implements FloorsRepository {
 
-    private final Map<String, Floor> floorsById = new HashMap<>();
+    private final Map<String, Floor> floorsById;
+
+    public FloorRepositoryImpl(Map<String, Floor> floorsById) {
+        this.floorsById = floorsById;
+    }
 
     @Override
     public Optional<Floor> getById(String floorId) {
@@ -21,6 +25,4 @@ public class FloorRepositoryImpl implements FloorsRepository {
         floor.setFloorId(UUID.randomUUID().toString());
         return floorsById.put(floor.getFloorId(), floor);
     }
-
-
 }

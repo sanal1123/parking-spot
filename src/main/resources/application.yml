@@ -1,2 +1,31 @@
 server:
   port: 8087
+  zone: Asia/Kolkata
+
+rate:
+  hourlyRateBaseFeeConfig:
+    CAR: 150
+    BUS: 250
+    MOTORCYCLE: 80
+    ELECTRIC_CAR: 350
+  flatRateBaseFeeConfig:
+    CAR: 250
+    BUS: 350
+    MOTORCYCLE: 150
+    ELECTRIC_CAR: 800
+  tierMapping:
+    CAR: HOURLY
+    BUS: HOURLY
+    MOTORCYCLE: FLAT
+    ELECTRIC_CAR: HOURLY
+
+  pricing-rule:
+    weekendRuleEnabled: true
+    rushHourRuleEnabled: true
+    weekendSurgeCharge: 80
+    rushHourSurge: 50
+    rushHourStart: "17:30"
+    rushHourEnd: "21:00"
+
+  calculation:
+    hourlySubsequentMultiplier: 1.4

@@ -5,5 +5,4 @@ import com.lld.practice.entity.Floor;
 
 public interface FloorService {
     Floor createFloor(Integer sequence);
-    Floor getFloorById(String floorId);
 }
