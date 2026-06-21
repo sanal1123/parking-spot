@@ -2,6 +2,7 @@ package com.lld.practice.repository.impl;
 
 import com.lld.practice.entity.Floor;
 import com.lld.practice.entity.ParkingSpot;
+import com.lld.practice.entity.Ticket;
 import com.lld.practice.enums.SpotType;
 import com.lld.practice.repository.ParkingSpotRepository;
 
@@ -12,15 +13,18 @@ public class ParkingSpotRepositoryImpl implements ParkingSpotRepository {
     private final Map<String, ParkingSpot> parkingSpotsById;
     private final Map<String, Floor> floorsById;
     private final Map<SpotType, Set<ParkingSpot>> availableSpots;
+    private final Map<String, Ticket> ticketsById;
 
     public ParkingSpotRepositoryImpl(
             Map<String, ParkingSpot> parkingSpotsById,
             Map<String, Floor> floorsById,
-            Map<SpotType, Set<ParkingSpot>> availableSpots
+            Map<SpotType, Set<ParkingSpot>> availableSpots,
+            Map<String, Ticket> ticketsById
     ) {
         this.parkingSpotsById = parkingSpotsById;
         this.floorsById = floorsById;
         this.availableSpots = availableSpots;
+        this.ticketsById = ticketsById;
     }
 
     @Override
@@ -29,15 +33,6 @@ public class ParkingSpotRepositoryImpl implements ParkingSpotRepository {
         return existingSpot == null ?
                 persistNewParkingSpot(spot) :
                 updateExistingParkingSpot(spot, existingSpot);
-    }
-
-    private ParkingSpot updateExistingParkingSpot(ParkingSpot newSpot, ParkingSpot existing) {
-        existing.setSpotId(newSpot.getSpotId());
-        existing.setSpotType(newSpot.getSpotType());
-        existing.setFloor(newSpot.getFloor());
-        existing.setTicket(newSpot.getTicket());
-        existing.setSequence(newSpot.getSequence());
-        return newSpot;
     }
 
     @Override
@@ -52,6 +47,29 @@ public class ParkingSpotRepositoryImpl implements ParkingSpotRepository {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void assignTicket(String spotId, String ticketId) {
+        Ticket ticket = ticketsById.get(ticketId);
+        ParkingSpot spot = parkingSpotsById.get(spotId);
+        spot.setTicket(ticket);
+    }
+
+    @Override
+    public void unAssignTicket(String spotId) {
+        ParkingSpot spot = parkingSpotsById.get(spotId);
+        spot.setTicket(null);
+        availableSpots.get(spot.getSpotType()).add(spot);
+    }
+
+    private ParkingSpot updateExistingParkingSpot(ParkingSpot newSpot, ParkingSpot existing) {
+        existing.setSpotId(newSpot.getSpotId());
+        existing.setSpotType(newSpot.getSpotType());
+        existing.setFloor(newSpot.getFloor());
+        existing.setTicket(newSpot.getTicket());
+        existing.setSequence(newSpot.getSequence());
+        return newSpot;
     }
 
     private ParkingSpot persistNewParkingSpot(ParkingSpot spot) {

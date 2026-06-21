@@ -1,24 +1,23 @@
 package com.lld.practice.stratergy.parkingfee;
 
 import com.lld.practice.entity.Ticket;
-import com.lld.practice.enums.VehicleType;
+import com.lld.practice.enums.TicketStatus;
+import com.lld.practice.factory.BaseFeeFactory;
 import com.lld.practice.factory.PricingRulesFactory;
 import com.lld.practice.rules.PricingRule;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public abstract class RateCalculator {
 
-    private final Map<VehicleType, BigDecimal> baseFeePerVehicleType;
     private final PricingRulesFactory pricingRulesFactory;
+    private final BaseFeeFactory baseFeeFactory;
 
-    protected RateCalculator(Map<VehicleType, BigDecimal> baseFeePerVehicleType, PricingRulesFactory pricingRulesFactory) {
-        this.baseFeePerVehicleType = Collections.unmodifiableMap(baseFeePerVehicleType);
+    protected RateCalculator(BaseFeeFactory baseFeeFactory, PricingRulesFactory pricingRulesFactory) {
+        this.baseFeeFactory = baseFeeFactory;
         this.pricingRulesFactory = pricingRulesFactory;
     }
 
@@ -27,7 +26,7 @@ public abstract class RateCalculator {
         BigDecimal fee = calculation(ticket);
         List<PricingRule> pricingRules = pricingRulesFactory.rules(ticket);
 
-        for(PricingRule rule: pricingRules) {
+        for (PricingRule rule : pricingRules) {
             fee = rule.apply(fee);
         }
         return fee;
@@ -37,20 +36,18 @@ public abstract class RateCalculator {
 
     protected void validateTicket(Ticket ticket) {
         Instant exit = ticket.getExitTime();
-        if(exit == null) {
+        if (exit == null) {
             throw new IllegalStateException("Exit time not recorded!");
         }
 
-        VehicleType vehicleType = ticket.getVehicleType();
-
-        if(!baseFeePerVehicleType.containsKey(vehicleType)) {
-            throw new IllegalStateException("Base fare not available for the spotType: " + vehicleType);
+        TicketStatus ticketStatus = ticket.getTicketStatus();
+        if(!TicketStatus.CLOSED.equals(ticketStatus)) {
+            throw new IllegalStateException("Invalid Ticket state: " + ticketStatus);
         }
     }
 
     protected BigDecimal getBaseFare(Ticket ticket) {
-        VehicleType vehicleType = ticket.getVehicleType();
-        return baseFeePerVehicleType.get(vehicleType);
+        return baseFeeFactory.perVehicleType(ticket.getVehicleType());
     }
 
     protected static long getParkingDurationMinutes(Ticket ticket) {

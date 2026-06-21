@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface ParkingSpotRepository {
     ParkingSpot save(ParkingSpot spot);
     Optional<ParkingSpot> getNextAvailableSpotByTypes(List<SpotType> spotTypes);
+    void assignTicket(String spotId, String ticketId);
+    void unAssignTicket(String spotId);
 }

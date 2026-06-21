@@ -12,7 +12,7 @@ import java.util.Set;
 public interface ParkingLotService {
     Floor createFloor(Integer sequence);
     ParkingSpot createParkingSpot(Integer sequence, SpotType spotType, String floorId);
-    Ticket generateTicket(String licensePlate, VehicleType vehicleType);
+    Ticket parkVehicle(String licensePlate, VehicleType vehicleType);
     Payment unparkVehicle(String ticketId);
     Set<Ticket> getActiveTickets();
 }

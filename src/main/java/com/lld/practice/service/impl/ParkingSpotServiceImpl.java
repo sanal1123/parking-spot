@@ -28,7 +28,7 @@ public class ParkingSpotServiceImpl implements ParkingSpotService {
 
     @Override
     public ParkingSpot createParkingSpot(Integer sequence, SpotType spotType, String floorId) {
-        Floor floor =floorsRepository.getById(floorId)
+        Floor floor = floorsRepository.getById(floorId)
                 .orElseThrow(() -> new NoSuchElementException("Floor Not Found"));
         ParkingSpot parkingSpot = new ParkingSpot();
         parkingSpot.setSequence(sequence);
@@ -41,5 +41,15 @@ public class ParkingSpotServiceImpl implements ParkingSpotService {
     public Optional<ParkingSpot> getNextAvailableSpotByVehicleType(VehicleType vehicleType) {
         List<SpotType> spotTypes = compatibleSpotTypes.get(vehicleType);
         return parkingSpotRepository.getNextAvailableSpotByTypes(spotTypes);
+    }
+
+    @Override
+    public void markSpotAvailable(String spotId) {
+        parkingSpotRepository.unAssignTicket(spotId);
+    }
+
+    @Override
+    public void assignTicketToParkingSpot(String spotId, String ticketId) {
+        parkingSpotRepository.assignTicket(spotId, ticketId);
     }
 }

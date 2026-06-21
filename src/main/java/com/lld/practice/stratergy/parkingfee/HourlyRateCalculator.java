@@ -1,23 +1,22 @@
 package com.lld.practice.stratergy.parkingfee;
 
 import com.lld.practice.entity.Ticket;
-import com.lld.practice.enums.VehicleType;
+import com.lld.practice.factory.BaseFeeFactory;
 import com.lld.practice.factory.PricingRulesFactory;
 import com.lld.practice.props.FeeCalculationProps;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 public class HourlyRateCalculator extends RateCalculator {
 
     private final FeeCalculationProps feeCalculationProps;
 
     public HourlyRateCalculator(
-            Map<VehicleType, BigDecimal> hourlyBaseFee,
+            BaseFeeFactory baseFeeFactory,
             PricingRulesFactory pricingRules,
             FeeCalculationProps feeCalculationProps
     ) {
-        super(hourlyBaseFee, pricingRules);
+        super(baseFeeFactory, pricingRules);
         this.feeCalculationProps = feeCalculationProps;
     }
 

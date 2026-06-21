@@ -13,7 +13,7 @@ public class ParkingSpot {
         this.spotType = parkingSpot.getSpotType();
         this.floor = parkingSpot.getFloor();
         this.sequence = parkingSpot.getSequence();
-        this.ticket = parkingSpot.getTicket();
+        this.ticket = new Ticket(parkingSpot.getTicket());
     }
 
     private String spotId;

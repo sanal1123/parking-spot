@@ -12,7 +12,7 @@ import com.lld.practice.service.FloorService;
 import com.lld.practice.service.ParkingLotService;
 import com.lld.practice.service.ParkingSpotService;
 import com.lld.practice.service.TicketService;
-import com.lld.practice.stratergy.allocation.AllocationStrategy;
+import com.lld.practice.stratergy.locator.ParkingSpotLocator;
 import com.lld.practice.stratergy.parkingfee.RateCalculator;
 
 import java.math.BigDecimal;
@@ -20,20 +20,20 @@ import java.util.*;
 
 public class ParkingLotServiceImpl implements ParkingLotService {
     private final FloorService floorService;
-    private final AllocationStrategy allocationStrategy;
+    private final ParkingSpotLocator parkingSpotLocator;
     private final RateCalculationFactory rateCalculationFactory;
     private final TicketService ticketService;
     private final ParkingSpotService parkingSpotService;
 
     public ParkingLotServiceImpl(
             FloorService floorService,
-            AllocationStrategy allocationStrategy,
+            ParkingSpotLocator parkingSpotLocator,
             RateCalculationFactory rateCalculationFactory,
             TicketService ticketService,
             ParkingSpotService parkingSpotService
     ) {
         this.floorService = floorService;
-        this.allocationStrategy = allocationStrategy;
+        this.parkingSpotLocator = parkingSpotLocator;
         this.rateCalculationFactory = rateCalculationFactory;
         this.ticketService = ticketService;
         this.parkingSpotService = parkingSpotService;
@@ -47,8 +47,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         return parkingSpotService.createParkingSpot(sequence, spotType, floorId);
     }
 
-    public Ticket generateTicket(String licensePlate, VehicleType vehicleType) {
-        ParkingSpot spot = allocationStrategy.allocate(vehicleType);
+    public Ticket parkVehicle(String licensePlate, VehicleType vehicleType) {
+        ParkingSpot spot = parkingSpotLocator.find(vehicleType);
         return ticketService.createTicket(licensePlate, vehicleType, spot);
     }
 
