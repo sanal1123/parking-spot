@@ -14,10 +14,12 @@ import com.lld.practice.service.ParkingSpotService;
 import com.lld.practice.service.TicketService;
 import com.lld.practice.stratergy.locator.ParkingSpotLocator;
 import com.lld.practice.stratergy.parkingfee.RateCalculator;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
 
+@Service
 public class ParkingLotServiceImpl implements ParkingLotService {
     private final FloorService floorService;
     private final ParkingSpotLocator parkingSpotLocator;

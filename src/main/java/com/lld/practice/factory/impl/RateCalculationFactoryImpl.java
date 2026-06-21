@@ -6,7 +6,9 @@ import com.lld.practice.enums.TicketStatus;
 import com.lld.practice.factory.RateCalculationFactory;
 import com.lld.practice.props.RateTierProps;
 import com.lld.practice.stratergy.parkingfee.RateCalculator;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RateCalculationFactoryImpl implements RateCalculationFactory {
     private final RateTierProps rateTierProps;
     private final RateCalculator hourlyRateCalculator;

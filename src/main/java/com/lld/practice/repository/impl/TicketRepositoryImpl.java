@@ -4,10 +4,12 @@ import com.lld.practice.entity.ParkingSpot;
 import com.lld.practice.entity.Ticket;
 import com.lld.practice.enums.TicketStatus;
 import com.lld.practice.repository.TicketRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class TicketRepositoryImpl implements TicketRepository {
 
     private final Map<String, Ticket> ticketsById;

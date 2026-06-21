@@ -1,9 +1,11 @@
 package com.lld.practice.rules;
 
 import com.lld.practice.props.PricingRuleProps;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+@Component
 public class WeekendRule implements PricingRule {
 
     private final PricingRuleProps pricingRuleProps;

@@ -7,11 +7,13 @@ import com.lld.practice.enums.VehicleType;
 import com.lld.practice.repository.TicketRepository;
 import com.lld.practice.service.ParkingSpotService;
 import com.lld.practice.service.TicketService;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+@Service
 public class TicketServiceImpl implements TicketService {
 
     private final TicketRepository ticketRepository;

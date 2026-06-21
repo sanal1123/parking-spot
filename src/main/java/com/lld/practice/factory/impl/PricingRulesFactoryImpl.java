@@ -4,6 +4,7 @@ import com.lld.practice.entity.Ticket;
 import com.lld.practice.factory.PricingRulesFactory;
 import com.lld.practice.props.PricingRuleProps;
 import com.lld.practice.rules.PricingRule;
+import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.Instant;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Component
 public class PricingRulesFactoryImpl implements PricingRulesFactory {
     private final PricingRuleProps pricingRuleProps;
     private final ZoneId zoneId;

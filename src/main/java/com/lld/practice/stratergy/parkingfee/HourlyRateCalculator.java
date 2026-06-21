@@ -4,9 +4,11 @@ import com.lld.practice.entity.Ticket;
 import com.lld.practice.factory.BaseFeeFactory;
 import com.lld.practice.factory.PricingRulesFactory;
 import com.lld.practice.props.FeeCalculationProps;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+@Component
 public class HourlyRateCalculator extends RateCalculator {
 
     private final FeeCalculationProps feeCalculationProps;

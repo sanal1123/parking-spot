@@ -7,9 +7,11 @@ import com.lld.practice.enums.VehicleType;
 import com.lld.practice.repository.FloorsRepository;
 import com.lld.practice.repository.ParkingSpotRepository;
 import com.lld.practice.service.ParkingSpotService;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class ParkingSpotServiceImpl implements ParkingSpotService {
 
     private final ParkingSpotRepository parkingSpotRepository;

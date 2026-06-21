@@ -5,9 +5,11 @@ import com.lld.practice.entity.ParkingSpot;
 import com.lld.practice.entity.Ticket;
 import com.lld.practice.enums.SpotType;
 import com.lld.practice.repository.ParkingSpotRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class ParkingSpotRepositoryImpl implements ParkingSpotRepository {
 
     private final Map<String, ParkingSpot> parkingSpotsById;
